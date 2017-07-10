@@ -1,0 +1,95 @@
+<div class="container">
+    <h1>Join a Team</h1>
+
+    <hr />
+
+    <div class="alert alert-danger" *ngIf="error">
+        <strong>Error!</strong> {{ error }}
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Team Leader</th>
+                <th>Join</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let team of teams">
+                <td>{{ team.name }}</td>
+                <td>{{ team.owner }}</td>
+                <td *ngIf="!team.open"><a href="#" (click)="join(team)">Join with Invite Key!</a></td>
+                <td *ngIf="team.open"><a href="#" (click)="join(team)">Join Now!</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br />
+
+    <h1>Create a Team</h1>
+
+    <hr />
+
+    <p>Instead, if you are a team leader, you may create a team here.</p>
+
+    <br *ngIf="createTeamError" />
+
+    <div class="alert alert-danger" *ngIf="createTeamError">
+        <strong>Error!</strong> {{ createTeamError }}
+    </div>
+
+    <br />
+
+    <form class="form-inline" [formGroup]="createTeam" (ngSubmit)="onSubmitCreateTeam(createTeam)">
+        <div class="form-group">
+            <label for="teamNameInput">Team Name &nbsp; </label>
+            <input type="text" class="form-control" id="teamNameInput" placeholder="Ignite" formControlName="name">
+        </div>
+         &nbsp; <button type="submit" class="btn btn-default">Create!</button>
+    </form>
+</div>
+
+<div class="modal fade" bsModal #joinTeamOpenModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" *ngIf="toJoin">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Join Team</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="joinTeamOpenModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to join the team <b>{{ toJoin.name }}</b>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="joinTeamOpenModal.hide()">Cancel</button>
+                <button type="button" class="btn btn-success" (click)="performJoinTeam(toJoin, null)">Join</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #joinTeamClosedModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" *ngIf="toJoin">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Join Team</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="joinTeamClosedModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>The team <b>{{ toJoin.name }}</b> requires a join key.</p>
+                <div class="input-group">
+                    <div class="input-group-addon">Join Key</div>
+                    <input type="text" class="form-control" [(ngModel)]="joinKey" placeholder="" (keyup.enter)="performJoinTeam(toJoin, joinKey)">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="joinTeamClosedModal.hide()">Cancel</button>
+                <button type="button" class="btn btn-success" (click)="performJoinTeam(toJoin, joinKey)">Join</button>
+            </div>
+        </div>
+    </div>
+</div>

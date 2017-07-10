@@ -1,0 +1,11 @@
+{
+  "apps" : [{
+    "name"            : "quantidev-server",
+    "script"          : "bin/www",
+	"post_update"     : ["npm install"],
+    "log_date_format" : "YYYY-MM-DD HH:mm Z",
+	"env" : {
+      "PORT": 3050
+	}
+  }]
+}

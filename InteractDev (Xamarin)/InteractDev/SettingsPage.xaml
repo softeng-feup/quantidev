@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InteractDev.SettingsPage" Title="Settings">
+	<ContentPage.Content>
+		<StackLayout>
+			<TableView Intent="Settings" x:Name="Table">
+    			<TableRoot>
+					<TableSection Title="Privacy Settings">
+						<SwitchCell Text="Automatically Share Notes" On="{Binding ShareNotes}" OnChanged="AutoShareChanged" />
+					</TableSection>
+					<TableSection>
+						<ViewCell Tapped="LogOut" Height="45">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+								<Label IsEnabled="false" Text="Log Out" FontSize="16" TextColor="Red" HorizontalOptions="Center" VerticalOptions="Center" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+    			</TableRoot>
+			</TableView>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

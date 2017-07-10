@@ -1,0 +1,240 @@
+<h1 *ngIf="owner">Manage Team <span *ngIf="!loading">&bull; {{ team.name }}</span></h1>
+<h1 *ngIf="!owner">My Team <span *ngIf="!loading">&bull; {{ team.name }}</span></h1>
+
+<hr />
+
+<div *ngIf="!loading">
+    <h3>Team Cohesion Report</h3>
+
+    <hr />
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Answered Report?</th>
+                <th *ngIf="owner">View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let sprint of pastSprints; let i = index">
+                <td>{{ sprint.date.start.day }} / {{ sprint.date.start.month }} / {{ sprint.date.start.year }}</td>
+                <td>{{ sprint.date.end.day }} / {{ sprint.date.end.month }} / {{ sprint.date.end.year }}</td>
+                <td *ngIf="sprint.cohesion" style="color: green;">Yes</td>
+                <td *ngIf="!sprint.cohesion && i != 0" style="color: red;">No</td>
+                <td *ngIf="!sprint.cohesion && i == 0"><a routerLink="/team/cohesion/{{ sprint.id }}/submit">Answer</a></td>
+                <td *ngIf="owner"><a routerLink="/team/cohesion/{{ sprint.id }}">Report</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br />
+
+    <div *ngIf="owner">
+        <h3>General Settings</h3>
+
+        <hr />
+
+        <div class="alert alert-info" role="alert" *ngIf="gettingLocation"><b>Working...</b> Getting your current location...</div>
+        <div class="alert alert-success" role="alert" *ngIf="generalSettingsUpdateSuccess"><b>Done!</b> Your team's general settings were saved.</div>
+
+        <form class="form-horizontal" [formGroup]="changeGeneralSettings" (ngSubmit)="onSubmitChangeGeneralSettings(changeGeneralSettings)">
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Team Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="Ignite" formControlName="name" value="{{ team.name }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Workplace Latitude</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="41.1780" formControlName="latitude" value="{{ workplace.latitude }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Workplace Longitude</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="-8.5980" formControlName="longitude" value="{{ workplace.longitude }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" (click)="geolocateUser();" class="btn">Use My Location</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Change General Settings</button>
+                </div>
+            </div>
+        </form>
+
+        <br />
+
+        <div *ngIf="!sprint">
+            <h3>Setup Sprint</h3>
+
+            <hr />
+
+            <form class="form-horizontal" [formGroup]="changeSprintSettings" (ngSubmit)="onSubmitChangeSprintSettings(changeSprintSettings)">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Sprint Length</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" id="inputEmail3" placeholder="14 (in days)" formControlName="length" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Start Date</label>
+                    <div class="col-sm-10">
+                        <my-date-picker name="datePicker"
+                            [options]="datePickerOptions"
+                            [(ngModel)]="datePickerModel"
+                            formControlName="date"
+                            placeholder="Current Sprint Start Date"
+                            required>
+                        </my-date-picker>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Enable Sprint Features</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div *ngIf="sprint">
+            <h3>Sprint Settings</h3>
+
+            <hr />
+
+            <p><b>Current Sprint Start Date</b>: {{ sprint.date.day }} / {{ sprint.date.month }} / {{ sprint.date.year }}</p>
+            <p><b>Next Sprint Start Date</b>: {{ nextSprintStartDate.day }} / {{ nextSprintStartDate.month }} / {{ nextSprintStartDate.year }}</p>
+
+            <p><b>Sprint Length</b>: {{ sprint.length }} days</p>
+        </div>
+
+        <br />
+
+        <h3>Privacy Settings</h3>
+
+        <hr />
+
+        <p><b>Invite Code</b>: {{ code || 'None Generated' }} (<a href="#" (click)="reGenerateInviteCode()">Re-Generate</a>)</p>
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" (change)="openChanged()" [(ngModel)]="openAll"> Open to Everyone (no invite code required)
+            </label>
+        </div>
+
+        <br />
+
+        <h3>Members</h3>
+
+        <hr />
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let member of members">
+                    <td>{{ member.name }} ({{ member.username }})</td>
+                    <td *ngIf="member.username != userService.username()"><a href="#" (click)="makeLeader(member.username)">Make Leader</a> | <a href="#" (click)="kick(member.username)">Remove from Team</a></td>
+                    <td *ngIf="member.username == userService.username()"><i>No actions available for your own user.</i></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br />
+
+        <h3 class="danger">Destructive Area</h3>
+
+        <hr />
+
+        <p>This section allows you to delete your team and all its associated data.</p>
+        <p>This is a <b>destructive</b> action, and can <b>not</b> be undone.</p>
+        <p>If you just wish to make someone else the team leader please use the "Members" table above.</p>
+        <hr />
+        <button class="btn btn-danger" (click)="destroyTeam()">Destroy {{ team.name }}</button>
+    </div>
+
+    <div *ngIf="!owner">
+        <div *ngIf="sprint">
+            <p><b>Current Sprint Start Date</b>: {{ sprint.date.day }} / {{ sprint.date.month }} / {{ sprint.date.year }}</p>
+            <p><b>Next Sprint Start Date</b>: {{ nextSprintStartDate.day }} / {{ nextSprintStartDate.month }} / {{ nextSprintStartDate.year }}</p>
+
+            <p><b>Sprint Length</b>: {{ sprint.length }} days</p>
+        </div>
+        <hr />
+        <button class="btn btn-danger" (click)="leaveTeam()">Leave {{ team.name }}</button>
+    </div>
+</div>
+
+<br />
+
+<div class="modal fade" bsModal #leaveTeamModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Leave Team?</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="leaveTeamModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="team">
+                <p>You are about to leave the team <b>{{ team.name }}</b>.</p>
+                <p>Please note that you may not be able to join this team again without the help of the team leader.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="leaveTeamModal.hide()">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="performLeaveTeam()">Leave</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #destroyTeamModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Destroy Team?</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="destroyTeamModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="team">
+                <p>You are about to <b>permanently destroy</b> the team <b>{{ team.name }}</b> and all associated data.</p>
+                <p>Are you sure you want to do this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="destroyTeamModal.hide()">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="performDestroyTeam()">Destroy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #errorModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Error!</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="team">
+                <p>{{ error }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="errorModal.hide()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

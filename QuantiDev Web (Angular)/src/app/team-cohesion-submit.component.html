@@ -1,0 +1,49 @@
+<h1>Team Cohesion Report</h1>
+
+<hr />
+
+<p><b>Sprint Start</b>: <span *ngIf="sprint">{{ sprint.date.start.day }} / {{ sprint.date.start.month }} / {{ sprint.date.start.year }}</span></p>
+<p><b>Sprint End</b>: <span *ngIf="sprint">{{ sprint.date.end.day }} / {{ sprint.date.end.month }} / {{ sprint.date.end.year }}</span></p>
+
+<hr />
+
+<div class="alert alert-danger" *ngIf="errored">
+    <strong>Error!</strong> {{ remoteError }}
+</div>
+
+<div class="alert alert-warning" *ngIf="sprint && sprint.cohesion">
+    <strong>Error!</strong> You have already submitted a cohesion report for this sprint.
+</div>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form" class="likert" *ngIf="sprint && !sprint.cohesion">
+    <div *ngFor="let statement of statements">
+        <label class="statement">{{ statement.statement }}</label>
+        <br />
+        <ul class="likert">
+            <li>
+                <input type="radio" name="{{ statement.label }}" value="1" [formControlName]="statement.label">
+                <p>Strongly disagree</p>
+            </li>
+            <li>
+                <input type="radio" name="{{ statement.label }}" value="2" [formControlName]="statement.label">
+                <p>Disagree</p>
+            </li>
+            <li>
+                <input type="radio" name="{{ statement.label }}" value="3" [formControlName]="statement.label">
+                <p>Neutral</p>
+            </li>
+            <li>
+                <input type="radio" name="{{ statement.label }}" value="4" [formControlName]="statement.label">
+                <p>Agree</p>
+            </li>
+            <li>
+                <input type="radio" name="{{ statement.label }}" value="5" [formControlName]="statement.label">
+                <p>Strongly agree</p>
+            </li>
+        </ul>
+        <hr />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<br />

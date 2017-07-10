@@ -1,0 +1,87 @@
+<h1>Connections</h1>
+
+<hr />
+
+<div class="alert alert-danger" *ngIf="error">
+    <strong>Error!</strong> {{ error }}
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let connection of connections">
+            <td>{{ connection.service.name }}</td>
+            <td *ngIf="connection.valid && connection.username">Connected (as {{ connection.username }})</td>
+            <td *ngIf="connection.valid && !connection.username">Connected</td>
+            <td *ngIf="!connection.valid">Not connected</td>
+            <td *ngIf="connection.valid"><a href="#" (click)="disconnect(connection)">Disconnect Service</a></td>
+            <td *ngIf="!connection.valid"><a href="#" (click)="connect(connection.service)">Connect to Service</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Add Connection Modal -->
+
+<div class="modal fade" bsModal #addConnectionModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left" *ngIf="toConnect">Connect to Service {{ toConnect.name }}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="addConnectionModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal" [formGroup]="addConnectionForm" (ngSubmit)="onConnectSubmit(addConnectionForm)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputField1" class="col-sm-2 control-label" *ngIf="toConnect">{{ toConnect.fields[0].name }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="field1" class="form-control" id="inputField1" formControlName="field1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputField2" class="col-sm-2 control-label" *ngIf="toConnect">{{ toConnect.fields[1].name }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="field1" class="form-control" id="inputField2" formControlName="field2">
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" *ngIf="toConnect && toConnect.tip" [innerHTML]="toConnect.tip">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="addConnectionModal.hide()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Connect</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Disconnection Modal -->
+
+<div class="modal fade" bsModal #disconnectModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" *ngIf="toDisconnect">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Disconnect from Service?</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="disconnectModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to disconnect from <b>{{ toDisconnect.service.name }}</b>? You will be able to re-authenticate with the service in the future, if you so desire.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="disconnectModal.hide()">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="performDisconnection(toDisconnect)">Disconnect</button>
+            </div>
+        </div>
+    </div>
+</div>

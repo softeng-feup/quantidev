@@ -1,0 +1,34 @@
+<h1>Team Details for <form #myForm="ngForm" class="inline-form" novalidate>
+    <my-date-picker name="datePicker"
+        [options]="datePickerOptions"
+        [(ngModel)]="datePickerModel"
+        (dateChanged)="onDateChanged($event)" required>
+    </my-date-picker>
+</form></h1>
+
+<hr />
+
+<div class="alert alert-warning" role="alert" *ngIf="userCount == 0">There's no data available for the requested day.</div>
+
+<div *ngIf="userCount != 0">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <td><b>Metric</b></td>
+            <td><b>Value</b></td>
+        </tr>
+        </thead>
+        <tr>
+            <td>Time at least a member was in the workplace</td>
+            <td id="metric-at-least-one">{{ atLeastWorkplace }}</td>
+        </tr>
+        <tr>
+            <td>Time <b>all members</b> were in the workplace</td>
+            <td id="metric-all-members">{{ allMembersWorkplace }}</td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <google-chart [data]="timelineChartOptions" *ngIf="userCount != 0"></google-chart>
+</div>

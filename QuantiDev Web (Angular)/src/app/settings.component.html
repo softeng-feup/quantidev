@@ -1,0 +1,115 @@
+<h1>User Settings</h1>
+
+<hr />
+
+<div class="alert alert-success" role="alert" *ngIf="settingsUpdateSuccess"><b>Done!</b> Your settings were saved.</div>
+
+<h3>Change Location</h3>
+
+<br />
+
+<form class="form-inline" [formGroup]="changeLocation" (ngSubmit)="onSubmitChangeLocation(changeLocation)">
+    <div class="form-group">
+        <label class="sr-only" for="locationInput">Location</label>
+        <input type="text" class="form-control" id="locationInput" placeholder="City, Country" formControlName="location" value="{{ location }}">
+    </div>
+    <button type="submit" class="btn btn-default">Change Location</button>
+</form>
+
+<hr />
+
+<h3>Change Password</h3>
+
+<br />
+
+<form class="form-inline" [formGroup]="changePassword" (ngSubmit)="onSubmitChangePassword(changePassword)">
+    <div class="form-group">
+        <label class="sr-only" for="oldPasswordInput">Old Password</label>
+        <input type="password" class="form-control" id="oldPasswordInput" placeholder="Old Password" formControlName="old">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="newPasswordInput">New Password</label>
+        <input type="password" class="form-control" id="newPasswordInput" placeholder="New Password" formControlName="new">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="confirmNewPasswordInput">Confirm New Password</label>
+        <input type="password" class="form-control" id="confirmNewPasswordInput" placeholder="Confirm New Password" formControlName="confirmNew">
+    </div>
+    <button type="submit" class="btn btn-default">Change Password</button>
+</form>
+
+<hr />
+
+<h3>Change E-mail Address</h3>
+
+<br />
+
+<form class="form-inline" [formGroup]="changeEmail" (ngSubmit)="onSubmitChangeEmail(changeEmail)">
+    <div class="form-group">
+        <label class="sr-only" for="oldEmailInput">Old E-mail Address</label>
+        <input type="text" class="form-control" id="oldEmailInput" placeholder="Old E-mail Address" formControlName="old">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="newEmailInput">New E-mail Address</label>
+        <input type="text" class="form-control" id="newEmailInput" placeholder="New E-mail Address" formControlName="new">
+    </div>
+    <div class="form-group">
+        <label class="sr-only" for="confirmNewEmailInput">Confirm New E-mail Address</label>
+        <input type="text" class="form-control" id="confirmNewEmailInput" placeholder="Confirm New E-mail Address" formControlName="confirmNew">
+    </div>
+    <button type="submit" class="btn btn-default">Change E-mail Address</button>
+</form>
+
+<hr />
+
+<h3>Delete Account</h3>
+
+<br />
+
+<p>The button below allows you to delete your account and all its associated data.</p>
+<p>This is a <b>destructive</b> action, and can <b>not</b> be undone.</p>
+
+<br />
+
+<button class="btn btn-danger" (click)="deleteAccountModal.show()">Delete Account</button>
+
+<div class="modal fade" bsModal #deleteAccountModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Delete Account?</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="deleteAccountModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>You are about to <b>permanently delete</b> your account and all associated data.</p>
+                <p>While that you are free to create another account, no data will be able to be recovered.</p>
+                <p>Are you sure you want to do this?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="deleteAccountModal.hide()">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="deleteAccount()">Destroy</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" bsModal #errorModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Error!</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="error">
+                <p>{{ error }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="errorModal.hide()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

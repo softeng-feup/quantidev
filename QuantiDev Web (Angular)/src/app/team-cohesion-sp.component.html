@@ -1,0 +1,39 @@
+<h1>Team Cohesion ↔ Story Points for
+    <form #myForm="ngForm" class="inline-form" novalidate>
+        <my-date-range-picker name="dateRangePicker"
+            [options]="dateRangePickerOptions"
+            [(ngModel)]="dateRangePickerModel"
+            (dateRangeChanged)="onDateRangeChanged($event)" required>
+        </my-date-range-picker>
+    </form>
+</h1>
+
+<hr />
+
+<div class="alert alert-warning" role="alert" *ngIf="!dataAvailable && !dataLoading">There's no data available for the requested range.</div>
+
+<div class="alert alert-info" role="alert" *ngIf="dataLoading">Hang on tight, we're preparing a chart just for you!</div>
+
+<div class="pull-right" *ngIf="dataAvailable && !dataLoading && pearson"><button style="" type="button" (click)="openAnalysisModal();" class="btn btn-default btn-top">Analysis</button></div>
+
+<div id="chart" *ngIf="dataAvailable && !dataLoading"></div>
+
+<div class="modal fade" bsModal #analysisModal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Pearson Analysis</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="analysisModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="dataAvailable && !dataLoading && pearson">
+                <p>{{ pearson.humanReadableAnalysis() }}</p>
+                <p>Pearson Correlation Value: {{ pearson.result }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="analysisModal.hide()">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+github "Alamofire/Alamofire" "4.4.0"
+github "Weebly/Cereal" "v1.4.0"
+github "edualm/Charts" "v3.0.2"
+github "evgenyneu/SigmaSwiftStatistics" "6.0.0"
+github "goktugyil/EZLoadingActivity" "2.1"
+github "realm/realm-cocoa" "v2.7.0"

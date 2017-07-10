@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InteractDev.HistoryPage" Title="Interaction History">
+	<ContentPage.Content>
+		<ListView x:Name="HistoryListView" RowHeight="60">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<StackLayout Orientation="Horizontal" Padding="15,5,15,5">
+							<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand">
+								<Label Text="{Binding Member.Name}" TextColor="Black" VerticalOptions="Center" />
+								<Label Text="{Binding DateRepresentation}" TextColor="Gray" FontSize="12" HorizontalOptions="EndAndExpand" VerticalOptions="Center" />
+							</StackLayout>
+							<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand">
+								<Label Text="{Binding RatingRepresentation}" TextColor="Black" VerticalOptions="Center" HorizontalOptions="End" />
+							</StackLayout>
+						</StackLayout>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InteractDev.MainPage" Title="InteractDev">
+	<ContentPage.Content>
+		<StackLayout>
+			<TableView Intent="Form" HasUnevenRows="true" x:Name="Table">
+    			<TableRoot>
+					<TableSection>
+						<ViewCell Height="100" Tapped="StartInteraction">
+							<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+								<Image Source="chat.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32" />
+								<Label Text="Start Interaction" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+					<TableSection>
+						<ViewCell Height="45" Tapped="ShowLocalHistory">
+							<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
+								<Image Source="clock.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32" />
+								<Label Text="Past Interactions" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+							</StackLayout>
+						</ViewCell>
+						<ViewCell Height="45" Tapped="ShowRemoteHistory">
+							<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
+								<Image Source="cloud_download.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32" />
+								<Label Text="Shared Interactions" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+					<TableSection>
+						<ViewCell Height="45" Tapped="ShowSettings">
+							<StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" Padding="15,0,0,0">
+								<Image Source="gear.png" Aspect="AspectFit" WidthRequest="32" HeightRequest="32" />
+								<Label Text="Settings" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+    			</TableRoot>
+			</TableView>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

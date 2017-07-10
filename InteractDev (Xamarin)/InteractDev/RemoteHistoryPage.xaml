@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InteractDev.RemoteHistoryPage" Title="Shared Interactions">
+	<ContentPage.Content>
+		<ListView x:Name="HistoryListView" RowHeight="60">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell>
+						<StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+							<Label Text="{Binding owner.name}" TextColor="Black" />
+							<Label Text="{Binding StartDateRepresentation}" TextColor="Gray" FontSize="12" />
+						</StackLayout>
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</ContentPage.Content>
+</ContentPage>

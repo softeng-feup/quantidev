@@ -1,0 +1,22 @@
+<h1>Team Interaction Report - {{ datePartDay }} / {{ datePartMonth }} / {{ datePartYear }}</h1>
+
+<hr />
+
+<div class="alert alert-info" role="alert" *ngIf="error">No data was available for the selected time frame.</div>
+
+<table class="table table-bordered" *ngIf="!error">
+    <thead>
+        <tr>
+            <th>Team Member</th>
+            <th>Intervenient</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let interaction of interactions">
+            <td>{{ interaction.owner }}</td>
+            <td>{{ interaction.intervenient }}</td>
+            <td>{{ this.emoji(interaction.rating) }} - {{ interaction.rating }}</td>
+        </tr>
+    </tbody>
+</table>

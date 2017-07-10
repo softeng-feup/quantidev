@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InteractDev.PastInteractionPage" Title="Interaction Log">
+	<ContentPage.Content>
+		<StackLayout>
+			<TableView Intent="Form" HasUnevenRows="true" x:Name="Table">
+    			<TableRoot>
+					<TableSection Title="General Information">
+						<ViewCell IsEnabled="false" Height="45">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+								<Label Text="Team Member" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding Member.Name}" HorizontalOptions="End" VerticalOptions="Center" TextColor="Gray" FontSize="16" />
+							</StackLayout>
+						</ViewCell>
+						<ViewCell IsEnabled="false" Height="45">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+								<Label Text="Date" HorizontalOptions="Start" />
+								<Label Text="{Binding DateRepresentation}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" FontSize="16" />
+							</StackLayout>
+						</ViewCell>
+						<ViewCell IsEnabled="false" Height="45">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+								<Label Text="Length" HorizontalOptions="Start" />
+								<Label Text="{Binding LengthRepresentation}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" TextColor="Gray" FontSize="16" />
+							</StackLayout>
+						</ViewCell>
+						<ViewCell IsEnabled="false" Height="45">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+								<Label Text="Rating" HorizontalOptions="StartAndExpand" />
+								<Label Text="{Binding RatingRepresentation}" HorizontalOptions="End" VerticalOptions="Center" TextColor="Gray" FontSize="16" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+					<TableSection Title="Notes">
+						<ViewCell IsEnabled="false">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="15,15,15,15">
+								<Label Text="{Binding Note}" FontSize="16" LineBreakMode="WordWrap" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+					<TableSection>
+						<SwitchCell Text="Share with Team Member" On="{Binding Shared}" OnChanged="ToggleShare"></SwitchCell>
+					</TableSection>
+					<TableSection>
+						<ViewCell Tapped="DeleteInteraction" Height="45">
+							<StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Padding="15,5,15,5">
+								<Label IsEnabled="false" Text="Delete Interaction" FontSize="14" TextColor="Red" HorizontalOptions="Center" VerticalOptions="Center" />
+							</StackLayout>
+						</ViewCell>
+					</TableSection>
+    			</TableRoot>
+			</TableView>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

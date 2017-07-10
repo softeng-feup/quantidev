@@ -1,0 +1,23 @@
+{
+  "name": "quantidev-webapp",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Eduardo Almeida <me@edr.io>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "c3": "^0.4.11",
+    "moment": "^2.18.1",
+    "bootstrap": "^3.3.7"
+  }
+}

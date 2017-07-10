@@ -1,0 +1,17 @@
+<h1>Team Interaction for
+    <form #myForm="ngForm" class="inline-form" novalidate>
+        <my-date-range-picker name="dateRangePicker"
+            [options]="dateRangePickerOptions"
+            [(ngModel)]="dateRangePickerModel"
+            (dateRangeChanged)="onDateRangeChanged($event)" required>
+        </my-date-range-picker>
+    </form>
+</h1>
+
+<hr />
+
+<div class="alert alert-warning" role="alert" *ngIf="!dataAvailable && !dataLoading">There's no data available for the requested range.</div>
+
+<div class="alert alert-info" role="alert" *ngIf="dataLoading">Hang on tight, we're preparing a chart just for you!</div>
+
+<div id="chart" *ngIf="!dataLoading && dataAvailable"></div>

@@ -1,0 +1,54 @@
+<nav class="navbar navbar-default navbar-fixed-top" id="logged-out-navbar">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a routerLink="/" class="navbar-brand" routerLinkActive="active">{{title}}</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }"><a routerLink="/" routerLinkActive="active">Home</a></li>
+                <li class="dropdown" *ngIf="userService.isLoggedIn() && userService.isTeamOwner()">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="userService.isLoggedIn()">Team <span class="caret"></span></a>
+                    <ul class="dropdown-menu" *ngIf="userService.isLoggedIn()">
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/manage">Manage Team</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Data Charts</li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/cohesion/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Cohesion</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/commits/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Commits</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/communication/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Communication</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/interaction/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Interaction</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/loc/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Lines of Code</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/sp/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Story Points</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/detail/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Work Detail</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Correlation Charts</li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/csp/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Communication ↔ Story Points</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/cohesionsp/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Cohesion ↔ Story Points</a></li>
+                        <li [routerLinkActive]="['active']"><a routerLink="/team/tsp/{{ weekAgo.getFullYear() }}/{{ weekAgo.getMonth() + 1 }}/{{ weekAgo.getDate() }}/to/{{ today.getFullYear() }}/{{ today.getMonth() + 1 }}/{{ today.getDate() }}" routerLinkActive="active">Together ↔ Story Points</a></li>
+                    </ul>
+                </li>
+                <li [routerLinkActive]="['active']" *ngIf="userService.isLoggedIn() && userService.hasTeam() && !userService.isTeamOwner()"><a routerLink="/team/manage" routerLinkActive="active">My Team</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="userService.isLoggedIn() && !userService.hasTeam()"><a routerLink="/team" routerLinkActive="active">Teams</a></li>
+                <li [routerLinkActive]="['active']" *ngIf="userService.isLoggedIn()"><a routerLink="/connections" routerLinkActive="active">Connections</a></li>
+                <li [routerLinkActive]="['active']"><a routerLink="/about" routerLinkActive="active">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" *ngIf="!userService.isLoggedIn()">
+                <li [routerLinkActive]="['active']"><a routerLink="/signup" routerLinkActive="active">Sign Up</a></li>
+                <li [routerLinkActive]="['active']"><a routerLink="/login" routerLinkActive="active">Log In</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" *ngIf="userService.isLoggedIn()">
+                <li [routerLinkActive]="['active']"><a routerLink="/settings" routerLinkActive="active">Welcome, {{userService.name()}}!</a></li>
+                <li><a routerLink="/" routerLinkActive="active" (click)="logout()">Log Out</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

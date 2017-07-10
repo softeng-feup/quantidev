@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InteractDev.LoginPage" Title="Login to QuantiDev">
+	<ContentPage.Content>
+		<StackLayout>
+			<TableView Intent="Settings" HasUnevenRows="true" x:Name="Table">
+    			<TableSection Title="Login Details">
+            		<ViewCell Height="45">
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Username" Margin="15,5,10,5" VerticalOptions="Center"></Label>
+							<Entry x:Name="UsernameEntry" Placeholder="eduardo" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,10,0"></Entry>
+						</StackLayout>
+					</ViewCell>
+      				<ViewCell Height="45">
+						<StackLayout Orientation="Horizontal">
+							<Label Text="Password" Margin="15,5" VerticalOptions="Center"></Label>
+							<Entry x:Name="PasswordEntry" IsPassword="true" Placeholder="••••••••" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,10,0"></Entry>
+						</StackLayout>
+					</ViewCell>
+        		</TableSection>
+				<TableSection Title="">
+					<TextCell Text="Login to QuantiDev" x:Name="LoginCell" />
+				</TableSection>
+				<TableSection Title="">
+					<TextCell Text="Don't have an account?" Detail="Signup to QuantiDev" x:Name="SignupCell" />
+				</TableSection>
+			</TableView>
+        </StackLayout>
+	</ContentPage.Content>
+</ContentPage>

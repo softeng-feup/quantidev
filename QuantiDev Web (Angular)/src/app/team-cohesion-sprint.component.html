@@ -1,0 +1,36 @@
+<h1>Team Cohesion Report</h1>
+
+<hr />
+
+<div *ngIf="sprintDate">
+    <p><b>Start Date</b>: {{ sprintDate.start.day }} / {{ sprintDate.start.month }} / {{ sprintDate.start.year }}</p>
+    <p><b>End Date</b>: {{ sprintDate.end.day }} / {{ sprintDate.end.month }} / {{ sprintDate.end.year }}</p>
+</div>
+
+<br />
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="hide-margins-first"></th>
+            <th colspan="4" style="text-align: center;">Scores</th>
+        </tr>
+        <tr>
+            <th>Team Member</th>
+            <th>Task</th>
+            <th>Social</th>
+            <th>Attractiveness</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let report of reports">
+            <td *ngIf="!report.name">{{ report.user }}</td>
+            <td *ngIf="report.name">{{ report.name }}</td>
+            <td>{{ report.score.task }}</td>
+            <td>{{ report.score.social }}</td>
+            <td>{{ report.score.attractiveness }}</td>
+            <td><b>{{ report.score.total }}</b></td>
+        </tr>
+    </tbody>
+</table>
