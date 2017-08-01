@@ -8,6 +8,11 @@ MSc Thesis of Eduardo Almeida (edualm)
 - InteractDev (Xamarin)
 - quantiserver (Server)
 
+Thesis (w/ PDF)
+===============
+
+https://sigarra.up.pt/feup/pt/pub_geral.pub_view?pi_pub_base_id=201046
+
 License
 =======
 
